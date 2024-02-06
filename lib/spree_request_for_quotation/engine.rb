@@ -9,7 +9,7 @@ module SpreeRequestForQuotation
       g.test_framework :rspec
     end
 
-    initializer 'spree_request_for_quotation.environment', before: :load_config_initializers do |_app|
+    initializer 'spree_request_for_quotation.environment', after: :load_config_initializers do |_app|
       SpreeRequestForQuotation::Config = SpreeRequestForQuotation::Configuration.new
     end
 

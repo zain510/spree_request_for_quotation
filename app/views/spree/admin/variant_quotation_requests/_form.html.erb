@@ -1,0 +1,17 @@
+<%= render partial: 'spree/admin/shared/error_messages', locals: { target: @variant_quotation_request } %>
+<div class="form-group">
+  <%= f.field_container :quantity do %>
+    <%= f.label :quantity %>
+    <%= f.text_field :quantity, class: 'form-control' %>
+  <% end %>
+  <%= f.field_container :price do %>
+    <%= f.label :price %>
+    <%= f.text_field :price, class: 'form-control' %>
+  <% end %>
+  <%= f.field_container :status do %>
+    <%= f.label :status %>
+    <%= f.select :status,
+      options_for_select(['New', 'In Conversation', 'Closed'], selected: @variant_quotation_request.status.titleize),
+      {}, class: 'select2', required: :required %>
+  <% end %><br>
+</div>

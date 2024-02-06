@@ -1,0 +1,45 @@
+<% if variant_quotation_requests.any? %>
+  <table class="table sortable" data-hook="variant_quotation_requests_table">
+    <thead>
+      <tr data-hook="variant_quotation_requests_header">
+        <th> User </th>
+        <th> Sku </th>
+        <th> Quantity </th>
+        <th> Price </th>
+        <th> Status </th>
+        <th class="actions"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% variant_quotation_requests.each do |variant_quotation_request| %>
+        <tr id="<%= spree_dom_id variant_quotation_request %>" data-hook="variant_quotation_requests_row">
+          <td> <%= variant_quotation_request.user&.email rescue nil %> </td>
+          <td> <%= variant_quotation_request.variant&.sku %> </td>
+          <td> <%= variant_quotation_request.quantity %> </td>
+          <td> <%= variant_quotation_request.price %> </td>
+          <% status = variant_quotation_request.status.titleize %>
+          <% if status == 'New' %>
+            <td style='color: blue;'> <%= status %> </td>
+          <% elsif status == 'In Conversation' %>
+            <td style='color: green;'> <%= status %> </td>
+          <% elsif status == 'Closed' %>
+            <td style='color: red;'> <%= status %> </td>
+          <% end %>
+          <td class="actions actions-2 text-right">
+            <%= link_to_edit variant_quotation_request, no_text: true, class: 'edit' if can?(:edit, variant_quotation_request) %>
+            
+            <%= link_to_with_icon 'translate',
+                                  nil,
+                                  spree.admin_translations_path('variant_quotation_request', variant_quotation_request.id),
+                                  title: Spree.t(:'i18n.translations'),
+                                  class: 'btn btn-sm btn-primary' if defined? (SpreeGlobalize)%>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="alert alert-info alpha twelve columns no-objects-found">
+    <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::VariantQuotationRequest)) %>
+  </div>
+<% end %>

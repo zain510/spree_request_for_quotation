@@ -1,0 +1,10 @@
+<% content_for :page_title do %>
+  <%= link_to 'Variant Quotation Request', spree.admin_variant_quotation_requests_url %> /
+  <%= @variant_quotation_request.variant&.sku %>
+<% end %>
+<%= form_for [:admin, @variant_quotation_request] do |f| %>
+  <fieldset>
+    <%= render partial: 'form', locals: { f: f } %>
+    <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+  </fieldset>
+<% end %>

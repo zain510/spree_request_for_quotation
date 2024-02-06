@@ -1,3 +1,6 @@
-Spree::Core::Engine.add_routes do
-  # Add your extension routes here
+Spree::Core::Engine.routes.draw do
+  resources :variant_quotation_requests, only: [:create]
+  namespace :admin do
+    resources :variant_quotation_requests
+  end
 end

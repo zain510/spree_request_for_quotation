@@ -3,3 +3,6 @@
 
 en:
   hello: "Hello world"
+  spree:
+    quotation_requests: 'Variant Quotation Requests'
+    bulk_order: 'Bulk Order'
