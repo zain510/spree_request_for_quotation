@@ -1,0 +1,52 @@
+<% if variant_quotation_requests.present? %>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">User</th>
+          <th scope="col">SKU</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Price</th>
+          <th scope="col">Status</th>
+          <th class="actions" scope="col">Actions</th>
+          <th class="actions" scope="col">Place Order</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% variant_quotation_requests.each do |variant_quotation_request| %>
+          <tr>
+            <td><%= variant_quotation_request.user&.email.presence || 'N/A' %></td>
+            <td><%= variant_quotation_request.variant&.sku.presence || 'N/A' %></td>
+            <td><%= variant_quotation_request.quantity %></td>
+            <td><%= number_to_currency(variant_quotation_request.price) %></td>
+            <td>
+              <% status = variant_quotation_request.status.titleize %>
+              <% badge_class = case status
+                              when 'New' then 'primary'
+                              when 'In Conversation' then 'warning'
+                              when 'Closed' then 'danger'
+                              else 'secondary'
+                              end %>
+              <span class="badge badge-<%= badge_class %>"><%= status %></span>
+            </td>
+            <td style="text-align: center;">
+              <%= link_to_with_icon 'edit.svg', '', edit_variant_quotation_request_path(variant_quotation_request.id) %>
+            </td>
+            <% if variant_quotation_request.status == 'closed' %>
+              <td style="text-align: center;"><%= svg_icon name: "send-dash.svg", width: '18', height: '18' %></td>
+            <% elsif ['new', 'in_conversation'].include?(variant_quotation_request.status) %>
+              <td style="text-align: center;"><%= link_to_with_icon 'send-check-fill.svg', '', orders_path(variant_quotation_request_id: variant_quotation_request.id, variant_sku: variant_quotation_request.variant.sku, user_id: variant_quotation_request.user.id), method: :post %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-flex justify-content-center">
+    <%= paginate variant_quotation_requests, theme: 'twitter-bootstrap-4' %>
+  </div>
+<% else %>
+  <div class="alert alert-info">
+    <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::VariantQuotationRequest)) %>
+  </div>
+<% end %>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Quotation Accepted</title>
+    <style>
+      /* Your custom CSS styles can go here */
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+      .highlight {
+        background-color: #ffff99; /* Light yellow background */
+        padding: 5px;
+        border-radius: 3px;
+      }
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      .no-reply {
+        font-size: 12px;
+        color: #666;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Your Quotation for Variant SKU Accepted!</h2>
+      <p>Dear <span class="highlight"><%= @user.email %></span>,</p>
+      <p>We are thrilled to inform you that your quotation for the variant of SKU <span class="highlight"><%= @variant_sku %></span> has been accepted! 🎉</p>
+      <p>Thank you for choosing to shop with us on Spree Platform. We truly appreciate your trust in our services and products.</p>
+      <p>Should you have any questions, feedback, or need assistance with anything, please don't hesitate to reach out to our dedicated Spree Admin team at <span class="highlight"><%= @spree_admin_email %></span>. We are here to ensure your shopping experience remains seamless and delightful.</p>
+      <p>Once again, congratulations on your accepted quotation! We look forward to continuing to serve you and providing you with the best shopping experience possible.</p>
+      <p>Best regards,<br>
+      Spree Team<br>
+      <p class="no-reply">Please note: This is an automated email. Please do not reply to this message.</p>
+    </div>
+  </body>
+</html>

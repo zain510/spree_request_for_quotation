@@ -7,6 +7,7 @@
         <th> Quantity </th>
         <th> Price </th>
         <th> Status </th>
+        <th class="actions">Send</th>
         <th class="actions"></th>
       </tr>
     </thead>
@@ -25,14 +26,13 @@
           <% elsif status == 'Closed' %>
             <td style='color: red;'> <%= status %> </td>
           <% end %>
+          <% if variant_quotation_request.status == 'closed' %>
+            <td style="text-align: center;"><%= svg_icon name: "send-dash.svg", width: '18', height: '18' %></td>
+          <% elsif ['new', 'in_conversation'].include?(variant_quotation_request.status) %>
+            <td><%= link_to_with_icon 'send.svg', '', send_quotation_accepted_email_admin_variant_quotation_request_path(variant_quotation_request.id) %></td>
+          <% end %>
           <td class="actions actions-2 text-right">
             <%= link_to_edit variant_quotation_request, no_text: true, class: 'edit' if can?(:edit, variant_quotation_request) %>
-            
-            <%= link_to_with_icon 'translate',
-                                  nil,
-                                  spree.admin_translations_path('variant_quotation_request', variant_quotation_request.id),
-                                  title: Spree.t(:'i18n.translations'),
-                                  class: 'btn btn-sm btn-primary' if defined? (SpreeGlobalize)%>
           </td>
         </tr>
       <% end %>

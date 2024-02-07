@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card mt-5">
+        <div class="card-header bg-primary text-white">
+          <h2 class="mb-0">Quotation Requests</h2>
+        </div>
+        <div class="card-body">
+          <% if @open_variant_quotation_requests.any? || @closed_variant_quotation_requests.any? %>
+            <div class="accordion" id="variantQuotationAccordion">
+              <% if @open_variant_quotation_requests.any? %>
+                <div class="card">
+                  <div class="card-header" id="openVariantQuotationHeading">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link text-primary" type="button" data-toggle="collapse" data-target="#openVariantQuotationCollapse" aria-expanded="true" aria-controls="openVariantQuotationCollapse">
+                        Open Variant Quotation Requests
+                      </button>
+                    </h2>
+                  </div>
+
+                  <div id="openVariantQuotationCollapse" class="collapse show" aria-labelledby="openVariantQuotationHeading" data-parent="#variantQuotationAccordion">
+                    <div class="card-body">
+                      <%= render partial: 'table', locals: { variant_quotation_requests: @open_variant_quotation_requests } %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+
+              <% if @closed_variant_quotation_requests.any? %>
+                <div class="card">
+                  <div class="card-header" id="closedVariantQuotationHeading">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link text-primary collapsed" type="button" data-toggle="collapse" data-target="#closedVariantQuotationCollapse" aria-expanded="false" aria-controls="closedVariantQuotationCollapse">
+                        Closed Variant Quotation Requests
+                      </button>
+                    </h2>
+                  </div>
+                  <div id="closedVariantQuotationCollapse" class="collapse" aria-labelledby="closedVariantQuotationHeading" data-parent="#variantQuotationAccordion">
+                    <div class="card-body">
+                      <%= render partial: 'table', locals: { variant_quotation_requests: @closed_variant_quotation_requests } %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="alert alert-info mt-3">
+              <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::VariantQuotationRequest)) %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="card mt-3">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Edit Quotation Request - <%= @variant_quotation_request.id %></h5>
+    </div>
+    <div class="card-body">
+      <%= form_for @variant_quotation_request, url: variant_quotation_request_path(@variant_quotation_request), method: :patch do |f| %>
+        <div class="form-group">
+          <%= f.label :price %>
+          <%= f.text_field :price, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :quantity %>
+          <%= f.number_field :quantity, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :status %>
+          <%= f.select :status, options_for_select([['New', 'new'], ['In Conversation', 'in_conversation'], ['Closed', 'closed']], @variant_quotation_request.status), {}, class: "form-control" %>
+        </div>
+        <div class="text-right">
+          <%= f.submit "Update", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
