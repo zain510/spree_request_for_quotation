@@ -1,0 +1,40 @@
+<div class="mt-2">
+  <a style="text-decoration: none;" type="button" data-toggle="modal" data-target="#quotation-modal">
+    <%= svg_icon name: "edit.svg", width: '15', height: '15' %>
+  </a>
+</div>
+
+<div class="modal fade" id="quotation-modal" tabindex="-1" role="dialog" aria-labelledby="quotation-modal-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="quotation-modal-label">Request a Quotation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <%if try_spree_current_user%>
+        <%= form_for variant_quotation_request, url: variant_quotation_request_path(variant_quotation_request), method: :patch, remote: true do |f| %>
+
+          <div class="modal-body" id="quotation-form-body">
+            <div class="form-group">
+              <%= f.label :quantity %>
+              <%= f.number_field :quantity, class: 'form-control' %>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <%= f.submit 'Submit', class: 'btn btn-primary', id: 'quotation-form-submit-button' %>
+          </div>
+        <% end %>
+      <%else%>
+        <div class="modal-body">
+          <p>Please sign in first.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      <%end%>
+    </div>
+  </div>
+</div>

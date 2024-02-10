@@ -8,10 +8,10 @@
     <%= f.label :price %>
     <%= f.text_field :price, class: 'form-control' %>
   <% end %>
-  <%= f.field_container :status do %>
+  <!--<%= f.field_container :status do %>
     <%= f.label :status %>
     <%= f.select :status,
       options_for_select(['New', 'In Conversation', 'Closed'], selected: @variant_quotation_request.status.titleize),
       {}, class: 'select2', required: :required %>
-  <% end %><br>
+  <% end %><br>-->
 </div>

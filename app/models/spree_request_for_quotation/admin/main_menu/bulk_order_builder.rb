@@ -9,8 +9,8 @@ module SpreeRequestForQuotation
                    with_label_translation_key('quotation_requests').
                    with_match_path('/quotation_requests').
                    build
-          ::Spree::Admin::MainMenu::SectionBuilder.new('bulk_order', 'cart.svg').
-            with_label_translation_key('bulk_order').
+          ::Spree::Admin::MainMenu::SectionBuilder.new('quotations', 'cart.svg').
+            with_label_translation_key('quotations').
             with_item(item).
             build
         end

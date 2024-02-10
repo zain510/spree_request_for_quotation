@@ -7,7 +7,7 @@
           <th scope="col">SKU</th>
           <th scope="col">Quantity</th>
           <th scope="col">Price</th>
-          <th scope="col">Status</th>
+          <!--<th scope="col">Status</th>-->
           <th class="actions" scope="col">Actions</th>
           <th class="actions" scope="col">Place Order</th>
         </tr>
@@ -19,7 +19,7 @@
             <td><%= variant_quotation_request.variant&.sku.presence || 'N/A' %></td>
             <td><%= variant_quotation_request.quantity %></td>
             <td><%= number_to_currency(variant_quotation_request.price) %></td>
-            <td>
+            <!--<td>
               <% status = variant_quotation_request.status.titleize %>
               <% badge_class = case status
                               when 'New' then 'primary'
@@ -28,14 +28,24 @@
                               else 'secondary'
                               end %>
               <span class="badge badge-<%= badge_class %>"><%= status %></span>
-            </td>
-            <td style="text-align: center;">
-              <%= link_to_with_icon 'edit.svg', '', edit_variant_quotation_request_path(variant_quotation_request.id) %>
+            </td>-->
+            <td style="padding-left: 40px;">
+              <% if variant_quotation_request.price.blank? %>
+                <%= render partial: 'spree/products/bulk_enquiry_edit_form', locals: { variant_quotation_request: variant_quotation_request } %>
+              <% else %>
+                <%= svg_icon name: "edit.svg", width: '15', height: '15' %>
+              <% end %>
             </td>
             <% if variant_quotation_request.status == 'closed' %>
-              <td style="text-align: center;"><%= svg_icon name: "send-dash.svg", width: '18', height: '18' %></td>
+              <td style="padding-left: 30px;"><%= svg_icon name: "send-dash.svg", width: '15', height: '15' %></td>
             <% elsif ['new', 'in_conversation'].include?(variant_quotation_request.status) %>
-              <td style="text-align: center;"><%= link_to_with_icon 'send-check-fill.svg', '', orders_path(variant_quotation_request_id: variant_quotation_request.id, variant_sku: variant_quotation_request.variant.sku, user_id: variant_quotation_request.user.id), method: :post %></td>
+              <% url = current_spree_user.addresses.present? ? orders_path(variant_quotation_request_id: variant_quotation_request.id, variant_sku: variant_quotation_request.variant.sku, user_id: variant_quotation_request.user.id, price: variant_quotation_request.price, quantity: variant_quotation_request.quantity) : new_address_path %>
+              <% method_type = current_spree_user.addresses.present? ? :post : :get %>
+              <% if variant_quotation_request.price.blank? %>
+                <td style="padding-left: 30px;"><%= svg_icon name: "send-dash.svg", width: '15', height: '15' %></td>
+              <% else %>
+                <td style="padding-left: 30px;"><%= link_to_with_icon 'send-check-fill.svg', '', url, method: method_type, data: { confirm: variant_quotation_request.confirm_message(current_spree_user) } %></td>
+              <% end %>
             <% end %>
           </tr>
         <% end %>

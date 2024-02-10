@@ -4,7 +4,8 @@ module Spree
     before_action :update_status, only: [:update]
 
     def create
-      @variant_quotation_request = try_spree_current_user.variant_quotation_requests.new(variant_quotation_request_params)
+      @variant = Spree::Variant.find(variant_quotation_request_params[:variant_id])
+      @variant_quotation_request = try_spree_current_user.variant_quotation_requests.new(variant_quotation_request_params.merge(vendor_id: (@variant.vendor_id || @variant.product.vendor_id)))
       @variant_quotation_request.save
       
       respond_to do |format|
@@ -14,19 +15,16 @@ module Spree
     end
 
     def update
-      if @variant_quotation_request.update!(variant_quotation_request_params)
-        redirect_to variant_quotation_requests_path, notice: "Variant Quotation Request was successfully updated"
-      else
-        render :edit, status: :unprocessable_entity
+      @variant_quotation_request.update!(variant_quotation_request_params)
+      respond_to do |format|
+        format.js
+        format.html
       end
     end
 
     def index
       @closed_variant_quotation_requests = spree_current_user.variant_quotation_requests.includes(:user, :variant).order(updated_at: :desc).where(status: ['closed']).page(params[:page]).per(params[:per_page])
       @open_variant_quotation_requests = spree_current_user.variant_quotation_requests.includes(:user, :variant).order(updated_at: :desc).where(status: ['new', 'in_conversation']).page(params[:page]).per(params[:per_page])
-    end
-
-    def edit
     end
 
     private
@@ -55,7 +53,7 @@ module Spree
     end
 
     def variant_quotation_request_params
-      params.require(:variant_quotation_request).permit(:variant_id, :quantity, :price, :status)
+      params.require(:variant_quotation_request).permit(:variant_id, :quantity, :price, :status, :vendor_id)
     end
   end
 end

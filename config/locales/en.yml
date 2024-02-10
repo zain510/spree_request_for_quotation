@@ -6,4 +6,4 @@ en:
   spree:
     my_quotation: 'My Quotation'
     quotation_requests: 'Variant Quotation Requests'
-    bulk_order: 'Bulk Order'
+    bulk_order: 'Quotations'

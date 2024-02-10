@@ -6,7 +6,7 @@
         <th> Sku </th>
         <th> Quantity </th>
         <th> Price </th>
-        <th> Status </th>
+        <!--<th> Status </th>-->
         <th class="actions">Send</th>
         <th class="actions"></th>
       </tr>
@@ -18,16 +18,16 @@
           <td> <%= variant_quotation_request.variant&.sku %> </td>
           <td> <%= variant_quotation_request.quantity %> </td>
           <td> <%= variant_quotation_request.price %> </td>
-          <% status = variant_quotation_request.status.titleize %>
+          <!--<% status = variant_quotation_request.status.titleize %>
           <% if status == 'New' %>
             <td style='color: blue;'> <%= status %> </td>
           <% elsif status == 'In Conversation' %>
             <td style='color: green;'> <%= status %> </td>
           <% elsif status == 'Closed' %>
             <td style='color: red;'> <%= status %> </td>
-          <% end %>
+          <% end %>-->
           <% if variant_quotation_request.status == 'closed' %>
-            <td style="text-align: center;"><%= svg_icon name: "send-dash.svg", width: '18', height: '18' %></td>
+            <td style="text-align: center;"><%= svg_icon name: "send-dash.svg", width: '15', height: '15' %></td>
           <% elsif ['new', 'in_conversation'].include?(variant_quotation_request.status) %>
             <td><%= link_to_with_icon 'send.svg', '', send_quotation_accepted_email_admin_variant_quotation_request_path(variant_quotation_request.id) %></td>
           <% end %>
